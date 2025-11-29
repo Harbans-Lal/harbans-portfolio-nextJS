@@ -1,0 +1,33 @@
+name: Deploy to Netlify # Name of this workflow
+
+on:
+  push:
+    branches:
+      - main # Trigger this workflow when code is pushed to 'main'
+
+jobs:
+  build-and-deploy: # Name of the job
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3 # Step 1: get your code from GitHub
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3 # Step 2: Install Node.js
+        with:
+          node-version: 18 # Use Node.js v18
+
+      - name: Install dependencies
+        run: npm install # Step 3: Install npm packages
+
+      - name: Build Next.js project
+        run: npm run build && npm run export # Step 4: Build & export static files
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2 # Step 5: Deploy using Netlify Action
+        with:
+          publish-dir: ./out # Directory to deploy
+          production-deploy: true # Make it live immediately
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }} # Token from GitHub Secrets
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }} # Site ID from GitHub Secrets

@@ -12,6 +12,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Harbans | Personal Portfolio",
   description: "Harbans is a full-stack developer with 2 years of experience.",
+  icons: {
+    icon: "/harbans-logo.svg",
+  },
 };
 
 export default function RootLayout({
